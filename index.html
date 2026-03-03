@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Dynamics | İnsansız Su Altı Sistemleri</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Orbitron:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --deep-ocean: #0a192f;
+            --mid-ocean: #112240;
+            --light-ocean: #233554;
+            --neon-teal: #64ffda;
+            --text-white: #e6f1ff;
+            --text-gray: #dbe3ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+
+            background: url('images/okyanus2.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* --- ARKA PLAN ŞEFFAFLIĞI DÜZELTİLDİ --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.3);
+            /* %80 koyuluk - Eskiden 0.85 idi, daha şeffaf oldu */
+            z-index: -1;
+        }
+
+        /* --- NAVBAR --- */
+        .glass-nav {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            z-index: 1000;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 35px;
+            background: rgba(2, 12, 27, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 50px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            height: 70px;
+        }
+
+        .brand-text {
+            font-size: 1.3rem;
+            color: #e6f1ff;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .brand-text .highlight {
+            color: #64ffda;
+            text-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+        }
+
+        .center-logo {
+            position: absolute;
+            left: 50%;
+            top: 60%;
+            transform: translate(-50%, -50%);
+        }
+
+        .center-logo img {
+            height: 80px;
+            width: auto;
+            filter: drop-shadow(0 0 5px rgba(100, 255, 218, 0.4));
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px; /* Gap biraz daha azaltıldı */
+        }
+
+        /* ✨ YUVARLAK HATLI NAV LİNKLERİ */
+        .nav-link {
+            color: #f8f9fc;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem; 
+            font-weight: 500;
+            transition: all 0.3s ease; /* Tüm geçişlere uygulandı */
+            position: relative;
+            padding: 8px 16px; /* Buton için iç boşluk */
+            border: 3px solid transparent white; /* Varsayılan olarak şeffaf kenarlık */
+            border-radius: 50px; /* Yuvarlak köşeler */
+            background-color: rgba(255, 255, 255, 0.05); /* Çok hafif şeffaf dolgu */
+        }
+
+        /* Önceki :before stili kaldırıldı. */
+        .nav-link:before {
+            content: none;
+        }
+
+        .nav-link:hover {
+            color: var(--neon-teal); 
+            text-shadow: 0 0 5px rgba(100, 255, 218, 0.5); 
+            border: 1px solid var(--neon-teal); /* Hover'da belirgin neon kenarlık */
+            background-color: rgba(100, 255, 218, 0.1); /* Hover'da neon şeffaf dolgu */
+        }
+
+        .nav-link:hover:before {
+            width: 0; /* Kaldırıldığı için sıfır */
+        }
+        
+        /* İLETİŞİM BUTONU (Uyum için tekrar eklendi) */
+        .nav-btn {
+            padding: 8px 20px; 
+            border: 1px solid #64ffda;
+            border-radius: 50px; 
+            color: #64ffda;
+            background-color: rgba(100, 255, 218, 0.05); 
+            transition: all 0.3s ease;
+            font-size: 0.95rem; 
+        }
+
+        .nav-btn:hover {
+            background: var(--neon-teal);
+            color: var(--deep-ocean);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.7); 
+            transform: scale(1.05); 
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #64ffda;
+            transition: 0.3s;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            /* --- ARACI VE BUTONU YUKARI TAŞIDIK --- */
+            padding-top: 18vh;
+            /* Eskiden 22vh idi, daha yukarı çıktı */
+            text-align: center;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 90%;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin: 0px;
+            letter-spacing: 3px;
+            color: #e6f1ff;
+            text-shadow: 0 0 30px rgba(100, 255, 218, 0.2);
+            position: relative;
+            top: 15px;
+            /* Üsttekiyle AYNI sayı olmalı ki birlikte hareket etsinler */
+        }
+
+        .hollow-text {
+            color: transparent;
+            -webkit-text-stroke: 2px var(--neon-teal);
+        }
+
+        .hero-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: var(--neon-teal);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            position: relative;
+            top: 15px;
+            /* Üsttekiyle AYNI sayı olmalı ki birlikte hareket etsinler */
+        }
+
+        .ortadaki-arac-kutusu {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -22px;
+            margin-bottom: -20px;
+
+        }
+
+        .vehicle-glow {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(100, 255, 218, 0.3) 0%, transparent 70%);
+            filter: blur(50px);
+            z-index: -1;
+            animation: glow-pulse 4s ease-in-out infinite;
+        }
+
+        .yuzen-arac {
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            z-index: 2;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
+            animation: float-vehicle 6s ease-in-out infinite;
+        }
+
+        @keyframes float-vehicle {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(1deg);
+            }
+        }
+
+        @keyframes glow-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+        }
+
+        .btn-modern {
+            margin-top: 0px;
+            padding: 12px 35px;
+            background: rgba(100, 255, 218, 0.05);
+            border: 1px solid var(--neon-teal);
+            color: var(--neon-teal);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-modern:hover {
+            background: var(--neon-teal);
+            color: var(--deep-ocean);
+            box-shadow: 0 0 25px rgba(100, 255, 218, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* --- CLEAN SECTIONS --- */
+        section {
+            padding: 80px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: transparent;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--text-white);
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .about-img {
+            width: 100%;
+            height: 350px;
+            border-radius: 20px;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            color: var(--neon-teal);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+        }
+
+        .about-img img {
+            height: 120px;
+            width: auto;
+            filter: drop-shadow(0 0 15px rgba(100, 255, 218, 0.5));
+        }
+
+        .about-img .brand-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--text-white);
+            text-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+        }
+
+        .about-img .brand-name .highlight {
+            color: var(--neon-teal);
+            text-shadow: 0 0 25px rgba(100, 255, 218, 0.8);
+        }
+
+        /* Vizyon & Misyon Bölümü */
+        .vision-mission-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 60px;
+            align-items: start;
+            margin-top: 40px;
+        }
+
+        .vision-box, .mission-box {
+            background: rgba(17, 34, 64, 0.3);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(100, 255, 218, 0.15);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .vision-box:hover, .mission-box:hover {
+            border-color: rgba(100, 255, 218, 0.4);
+            background: rgba(17, 34, 64, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .vision-box h2, .mission-box h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--neon-teal);
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        }
+
+        .vision-box p, .mission-box p {
+            color: var(--text-gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .mission-box ul {
+            list-style: none;
+            color: var(--text-gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .mission-box li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .mission-box li i {
+            color: var(--neon-teal);
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .divider-line {
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(100, 255, 218, 0.3) 20%, 
+                rgba(100, 255, 218, 0.6) 50%, 
+                rgba(100, 255, 218, 0.3) 80%, 
+                transparent 100%);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.4);
+            align-self: stretch;
+            min-height: 300px;
+        }
+
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .spec-card {
+            background: rgba(17, 34, 64, 0.4);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .spec-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-teal);
+            background: rgba(17, 34, 64, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .spec-card i {
+            font-size: 2.5rem;
+            color: var(--neon-teal);
+            margin-bottom: 20px;
+        }
+
+        .spec-card h3 {
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        .team-section {
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1024px) {
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .team-card {
+            background: rgba(17, 34, 64, 0.5);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            border-radius: 20px;
+            padding: 30px 20px;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            min-height: 280px;
+            justify-content: center;
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-teal);
+            box-shadow: 0 15px 40px rgba(100, 255, 218, 0.25);
+            background: rgba(17, 34, 64, 0.7);
+        }
+
+        .team-card img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center top;
+            border: 3px solid rgba(100, 255, 218, 0.4);
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+            display: block;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover img {
+            border-color: var(--neon-teal);
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.5);
+            transform: scale(1.05);
+        }
+
+        .team-card img.face-centered {
+            object-position: center center;
+        }
+
+        .team-placeholder {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(100, 255, 218, 0.1);
+            border: 3px solid rgba(100, 255, 218, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover .team-placeholder {
+            border-color: var(--neon-teal);
+            background: rgba(100, 255, 218, 0.15);
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.4);
+            transform: scale(1.05);
+        }
+
+        .team-placeholder i {
+            font-size: 3.5rem;
+            color: var(--neon-teal);
+            opacity: 0.6;
+        }
+
+        .team-card:hover .team-placeholder i {
+            opacity: 1;
+        }
+
+        .team-info {
+            text-align: center;
+            width: 100%;
+        }
+
+        .team-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text-white);
+        }
+
+        .team-role {
+            color: var(--neon-teal);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            display: block;
+            margin-top: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
+            background: linear-gradient(to top, rgba(2, 12, 27, 0.9), transparent);
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-gray);
+            margin: 0 15px;
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--neon-teal);
+            transform: scale(1.2);
+        }
+
+        /* MOBİL */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            header {
+                padding-top: 120px;
+            }
+
+            /* Mobilde header boşluğunu tekrar ayarladık */
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .ortadaki-arac-kutusu {
+                width: 100%;
+                height: 220px;
+            }
+
+            .yuzen-arac {
+                max-width: 200px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .vision-mission-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .divider-line {
+                width: 100%;
+                height: 2px;
+                min-height: 2px;
+                background: linear-gradient(to right, 
+                    transparent 0%, 
+                    rgba(100, 255, 218, 0.3) 20%, 
+                    rgba(100, 255, 218, 0.6) 50%, 
+                    rgba(100, 255, 218, 0.3) 80%, 
+                    transparent 100%);
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .team-card {
+                padding: 25px 15px;
+                min-height: 250px;
+            }
+
+            .team-card img,
+            .team-placeholder {
+                width: 120px;
+                height: 120px;
+            }
+
+            .team-placeholder i {
+                font-size: 3rem;
+            }
+
+            .team-info h3 {
+                font-size: 1.1rem;
+            }
+
+            .team-role {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <a href="#" class="brand-text">
+                NOVA <span class="highlight">DYNAMICS</span>
+            </a>
+            <a href="#" class="center-logo">
+                <img src="images/novayeni.png" alt="Nova Logo">
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#hakkimizda" class="nav-link">Hakkımızda</a></li>
+                <li class="nav-item"><a href="#takim" class="nav-link">Ekip</a></li>
+                <li class="nav-item"><a href="#iletisim" class="nav-link nav-btn">İletişim</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                NOVA <span class="hollow-text">DYNAMICS</span>
+            </h1>
+            <p class="hero-subtitle">DERİN SULARIN OTONOM GÜCÜ</p>
+
+            <div class="ortadaki-arac-kutusu">
+                <div class="vehicle-glow"></div>
+                <img src="images/novaaraci.png" alt="ROV" class="yuzen-arac">
+            </div>
+
+            <a href="#iletisim" class="btn-modern">Bize Katılın <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </header>
+
+    <section id="hakkimizda">
+        <h2 class="section-title">Hakkımızda</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Nova Dynamics, 2025 yılında disiplinlerarası bir mühendislik vizyonuyla kurulan; Bilgisayar, Endüstri, Makine ve Elektrik-Elektronik Mühendisliği öğrencilerinden oluşan bir teknoloji takımıdır. Temel odak noktamız, sualtı robotiği alanında özgün ve milli sistemler geliştirmektir. Ekibimiz, sadece mekanik bir montaj süreci değil; derin öğrenme destekli görüntü işleme, otonom seyir algoritmaları ve sistem optimizasyonu süreçlerini bir bütün olarak ele alan profesyonel bir çalışma disiplinine sahiptir.</p>
+            </div>
+            <div class="about-img">
+                <img src="images/novayeni.png" alt="Nova Dynamics Logo">
+                <div class="brand-name">
+                    NOVA <span class="highlight">DYNAMICS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vizyon-misyon">
+        <h2 class="section-title">Vizyonumuz & Misyonumuz</h2>
+        <div class="vision-mission-container">
+            <div class="vision-box">
+                <h2>Vizyonumuz</h2>
+                <p>İnsansız sualtı sistemleri ve otonom deniz araçları teknolojilerinde, Ar-Ge kapasitesi yüksek, uluslararası standartlarda rekabet edebilen ve savunma sanayisinden sivil uygulamalara kadar geniş bir yelpazede "çalışır, özgün ve milli" çözümler sunan öncü bir oluşum olmak.</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="mission-box">
+                <h2>Misyonumuz</h2>
+                <p style="margin-bottom: 20px;">Çok disiplinli mühendislik yetkinliklerimizi kullanarak;</p>
+                <ul>
+                    <li><i class="fas fa-caret-right"></i> <span>Teknofest İnsansız Sualtı Sistemleri yarışması kapsamında, ArduSub altyapısını ileri seviye otonom yeteneklerle birleştiren yüksek performanslı araçlar üretmek,</span></li>
+                    <li><i class="fas fa-caret-right"></i> <span>Derin öğrenme (Deep Learning) tabanlı nesne tanıma ve çevre analizi algoritmalarıyla insansız sistemlerin karar verme süreçlerini mükemmelleştirmek,</span></li>
+                    <li><i class="fas fa-caret-right"></i> <span>Proje yönetiminde Jira ve çevik (Agile) metodolojileri kullanarak, mühendislik süreçlerini profesyonel bir iş akışı ve veri odaklı yaklaşımla yönetmektir.</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="takim" class="team-section">
+        <h2 class="section-title">Ekibimiz</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="images/mehmet ali.jpeg" alt="Mehmet Ali Kıkıçoğlu">
+                <div class="team-info">
+                    <h3>Mehmet Ali Kıkıçoğlu</h3>
+                    <span class="team-role">Takım Kaptanı</span>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="images/abdulsamet.jpeg" alt="Abdulsamet Küçük">
+                <div class="team-info">
+                    <h3>Abdulsamet Küçük</h3>
+                    <span class="team-role">Yazılım Ekip Üyesi</span>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="images/baris.jpeg" alt="Barış İpçi" class="face-centered">
+                <div class="team-info">
+                    <h3>Barış İpçi</h3>
+                    <span class="team-role">Mekanik Ekip Lideri</span>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="images/eray.jpeg" alt="Eray Çakır">
+                <div class="team-info">
+                    <h3>Eray Çakır</h3>
+                    <span class="team-role">Proje Planlama Ekip Üyesi</span>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="images/serhat.jpeg" alt="Serhat Albayrak">
+                <div class="team-info">
+                    <h3>Serhat Albayrak</h3>
+                    <span class="team-role">Mekanik Ekip Üyesi</span>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="images/yasin.jpeg" alt="Yasin Kılıç" class="face-centered">
+                <div class="team-info">
+                    <h3>Yasin Kılıç</h3>
+                    <span class="team-role">Mekanik Ekip Üyesi</span>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="images/emin.jpeg" alt="Emin Erdem">
+                <div class="team-info">
+                    <h3>Emin Erdem</h3>
+                    <span class="team-role">Yazılım Ekip Üyesi</span>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="images/sametdönmez.jpeg" alt="Samet Dönmez" class="face-centered">
+                <div class="team-info">
+                    <h3>Samet Dönmez</h3>
+                    <span class="team-role">Yazılım Ekip Üyesi</span>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="images/tunahan.jpeg" alt="Tunahan" class="face-centered">
+                <div class="team-info">
+                    <h3>Tunahan Deniz</h3>
+                    <span class="team-role">Yazılım Ekip Üyesi</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="iletisim" style="text-align: center; max-width: 600px;">
+        <h2 class="section-title" style="justify-content: center;">İletişime Geçin</h2>
+        <p style="color: var(--text-gray); margin-bottom: 30px;">
+            Sponsorluk görüşmeleri, teknik sorular veya ekibimize katılmak için bize her zaman ulaşabilirsiniz.
+        </p>
+        <a href="mailto:novadynamicsiletisim@gmail.com" class="btn-modern" style="margin-top: 0;">
+            <i class="fas fa-envelope" style="margin-right: 10px;"></i> novadynamics2025@gmail.com
+        </a>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Nova Dynamics ROV Takımı.</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+    </footer>
+
+</body>
+
+</html>
